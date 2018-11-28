@@ -3,7 +3,7 @@ config:
   KEY_NAME: "my-key"
   PATH_TO_KEY: "/full-path/to-key/"
   INSTANCE_TYPE: "c4.8xlarge"
-  CORE_COUNT: "3"
+  WORKER_COUNT: "3"
   SUBNET_ID: "subnet-12345"
   WORKER_SECURITY_GROUP: ""
   MASTER_SECURITY_GROUP: ""

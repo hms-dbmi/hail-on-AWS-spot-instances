@@ -5,9 +5,9 @@ config:
   PROJECT_TAG: "my-project" # Project tag
   REGION: "us-east-1"
   MASTER_INSTANCE_TYPE: "m4.large"
-  CORE_INSTANCE_TYPE: "r4.4xlarge"
-  CORE_COUNT: "2" # Number of worker nodes
-  CORE_BID_PRICE: "0.44" # Required for spot instances
+  WORKER_INSTANCE_TYPE: "r4.4xlarge"
+  WORKER_COUNT: "2" # Number of worker nodes
+  WORKER_BID_PRICE: "0.44" # Required for spot instances
   SUBNET_ID: "" # This field can be either left blank or for further security you can specify your private subnet ID in the form: subnet-1a2b3c4d
   S3_BUCKET: "s3n://my-s3-bucket/" # Specify your S3 bucket for EMR log storage
   KEY_NAME: "my-key" # Input your key name ONLY! DO NOT include the .pem extension
