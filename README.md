@@ -89,7 +89,7 @@ b) **A valid EC2 key pair**. Click [here]( https://docs.aws.amazon.com/AWSEC2/la
 
     Since we are using spot instances, the worker nodes require a maximum bid price to be specified. The field `CORE_BID_PRICE` specifies the maximum cost that we will pay for each of the worker nodes. To choose an accurate and competitive bid price for your worker nodes, login to the [EMR management console](https://console.aws.amazon.com/elasticmapreduce):
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/aws_login.png" width="250">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/AWS_login.png" width="250">
 
     Click on **Go to advanced options**:
 
@@ -138,7 +138,7 @@ You can see the live installation log executing: `tail -f /tmp/cloudcreation_log
 
 ## Launching the `JupyterNotebook`
 
-To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.pngwidth" width="40"> logo use password: **`avillach`** to login. After that, you are all set!
+To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png width="40"> logo use password: **`avillach`** to login. After that, you are all set!
 
 
 
