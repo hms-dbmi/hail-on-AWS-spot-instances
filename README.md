@@ -89,27 +89,27 @@ b) **A valid EC2 key pair**. Click [here]( https://docs.aws.amazon.com/AWSEC2/la
 
     Since we are using spot instances, the worker nodes require a maximum bid price to be specified. The field `CORE_BID_PRICE` specifies the maximum cost that we will pay for each of the worker nodes. To choose an accurate and competitive bid price for your worker nodes, login to the [EMR management console](https://console.aws.amazon.com/elasticmapreduce):
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/AWS_login.png" width="250">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/AWS_login.png" width="350">
 
     Click on **Go to advanced options**:
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/advanced_options.png" width="400">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/advanced_options.png" width="600">
 
     You will be taken to *Step 1: Software and Steps*, click **Next**:
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/step1.png" width="600">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/step1.png" width="800">
 
     Here, click on the instance type selection pencil **(1)** to find your worker node type. Then, hover over the **i** icon **(2)** to show the current spot price for such instance:
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/spot_price.png" width="600">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/spot_price.png" width="800">
 
     Prices vary based on demand and by the **Subnet** with its corresponding **Availability Zone** (*subnet-053f834c* and zone *us-east-1a* in this example), where the later dictates the bid price; a good practice is to identify the current prices per subnet/zone and just go slightly above to guarantee that you will be promptly provisioned with instances. Even though you specify a certain bid price, you will still pay less if a lower price is available for your zone. The example below shows a suggested bid of $0.44 for `r4.4xlarge` instances in zones 1a and 1c:
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/prices.png" width="400">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/prices.png" width="420">
 
     3.2. For your `SUBNET_ID` you can either specify the subnet from the previous step (subnet-053f834c) or you can also choose a specific one from the [VPC Dashboard](https://console.aws.amazon.com/vpc):
 
-    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/subnet_id.png" width="650">
+    <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/subnet_id.png" width="800">
 
     For instance pricing, follow the guidelines from step **3.1**. The price is given by the **zone** where your subnet is located.
 
@@ -119,11 +119,11 @@ b) **A valid EC2 key pair**. Click [here]( https://docs.aws.amazon.com/AWSEC2/la
 
     3.5. Go to the [VPC Dashboard](https://console.aws.amazon.com/vpc) >> Security >> Security Groups to find and specify different groups for the `WORKER_SECURITY_GROUP` and `MASTER_SECURITY_GROUP`. NOTE: if these fields are left empty (default in the configuration file) the security groups are automatically assigned. **IMPORTANT:** for security purposes, the port `8192` has to be included in the inbound rules of your `MASTER_SECURITY_GROUP`. Go to the [VPC Dashboard](https://console.aws.amazon.com/vpc) >> Security >> Security Groups and select your desired group:
 
-      <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group.png" width="750">
+      <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group.png" width="850">
 
       Click on the **Inbound Rules** tab to double check if port `8192` is on the list. To add the port click on **Edit Rules** and use one of the two configurations suggested below:
 
-      <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group_options.png" width="750">
+      <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group_options.png" width="850">
 
       Click [here]( https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-security-groups.html) for additional documentation on security groups.
 
@@ -138,7 +138,7 @@ You can see the live installation log executing: `tail -f /tmp/cloudcreation_log
 
 ## Launching the `JupyterNotebook`
 
-To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="40"> logo use password: **`avillach`** to login. After that, you are all set!
+To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="60"> logo use password: **`avillach`** to login. After that, you are all set!
 
 
 
