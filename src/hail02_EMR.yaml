@@ -1,0 +1,13 @@
+config:
+  EMR_CLUSTER_NAME: "my-hail-02-cluster"
+  KEY_NAME: "my-key"
+  PATH_TO_KEY: "/full-path/to-key/"
+  INSTANCE_TYPE: "c4.8xlarge"
+  CORE_COUNT: "3"
+  SUBNET_ID: "subnet-12345"
+  WORKER_SECURITY_GROUP: ""
+  MASTER_SECURITY_GROUP: ""
+  EC2_NAME_TAG: "my-hail-EMR"
+  OWNER_TAG: "emr-owner"
+  PROJECT_TAG: "my-project"
+  S3_BUCKET: "s3n://my-s3-bucket/"
