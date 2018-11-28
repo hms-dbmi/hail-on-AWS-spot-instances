@@ -54,9 +54,9 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
 2. Change directories: `cd hail-on-AWS-spot-instances/src`
 
-3. Using the text editor of your preference (sublime, atom, vi, emacs, etc) update the configuration file `hail02_EMR.yaml` as per the instructions below. This file is your gateway to properly spinning a cluster and it requires specific elements to successfully create your working cluster. Before heading to step **4**, follow the instructions explained beneath.
+3. Using the text editor of your preference (sublime, atom, vi, emacs, etc) update the configuration file `config_EMR_spot.yaml` as per the instructions below. This file is your gateway to properly spinning a cluster and it requires specific elements to successfully create your working cluster. Before heading to step **4**, follow the instructions explained beneath.
 
-    #### Instructions to properly configure your `hail02_EMR.yaml` file
+    #### Instructions to properly configure your `config_EMR_spot.yaml` file
 
     This file will be used to provide the necessary information to create the cluster (do not change the name of the file). Give a name to your `EMR_CLUSTER_NAME` and add meaningful information by properly identifying your `EC2_NAME_TAG`, `OWNER_TAG` and `PROJECT_TAG`. The file in the repo is defaulted to region `us-east-1`, one `m4.large` master node and two `r4.4xlarge` worker nodes. You can change all this parameters to whatever suits your application.
 
