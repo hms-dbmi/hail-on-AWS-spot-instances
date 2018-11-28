@@ -138,7 +138,7 @@ You can see the live installation log executing: `tail -f /tmp/cloudcreation_log
 
 ## Launching the `JupyterNotebook`
 
-To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png width="40"> logo use password: **`avillach`** to login. After that, you are all set!
+To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="40"> logo use password: **`avillach`** to login. After that, you are all set!
 
 
 
@@ -149,4 +149,4 @@ Some times you may get sudden or unexpected errors. One of the reasons may be th
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/kernel.png" width="550">
 
 
-For <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/hail.png" width="80") documentation visit their website: <https://hail.is/docs/0.2/index.html>
+For <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/hail.png" width="80"> documentation visit their website: <https://hail.is/docs/0.2/index.html>
