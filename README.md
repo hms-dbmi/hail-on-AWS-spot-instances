@@ -19,7 +19,7 @@ brew install python3
 # Upgrades pip
 pip3 install --upgrade pip
 #Installs additional libraries
-sudo pip install boto3 pandas botocore paramiko pyyaml nose tornado
+sudo -H pip3 install boto3 pandas botocore paramiko pyyaml nose tornado
 # If the previous command does not work, try the following
 sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml nose tornado
 # Installs AWS CLI
