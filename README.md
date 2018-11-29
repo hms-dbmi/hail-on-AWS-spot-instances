@@ -17,9 +17,11 @@ ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/
 # Installs python3
 brew install python3
 # Upgrades pip
-pip install --upgrade pip
+pip3 install --upgrade pip
 #Installs additional libraries
-sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml
+sudo pip install boto3 pandas botocore paramiko pyyaml nose tornado
+# If the previous command does not work, try the following
+sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml nose tornado
 # Installs AWS CLI
 brew install awscli
 ```
@@ -33,9 +35,11 @@ source ~/.bashrc
 # Installs python3
 brew install python3
 # Upgrades pip
-pip install --upgrade pip
+pip3 install --upgrade pip
 #Installs additional libraries
-sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml
+sudo -H pip3 install boto3 pandas botocore paramiko pyyaml nose tornado
+# If the previous command does not work, try the following
+sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml nose tornado
 # Installs AWS CLI
 brew install awscli
 ```
@@ -46,7 +50,7 @@ This tool is executed from the terminal/command line using Amazon's `CLI` utilit
 
 a) **A configured `CLI` account**. From the terminal execute `aws configure`, [click here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) for additional information. If your `CLI` account has been previously configured, the tool will use such configuration by default. If you want to re-configure and use a specific account or a different user, execute `aws configure` and re-configure your account
 
-b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) to learn more on how to create and use your key
+b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-key-pairs.html) to learn more on how to create and use your key. **Safety remark**: once you have your key make sure to set the proper permissions for it: `chmod 400 my-key.pem`.
 
 ### How to use this `cloudformation` tool
 
@@ -119,7 +123,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
     3.3. The `S3_BUCKET` field specifies a location to store all the logs of your cluster (i.e. s3n://my-s3-bucket/). If you leave it blank ("") the log folder will be created under your **S3 root** folder. The log folder will have the same name as your automatically assigned EMR cluster ID (i.e. *j-123EMRID3210*)
 
-    3.4. The `KEY_NAME` field must include the name of your key **without** the extension. If your key file is `my-key.pem` only put `my-key`. The `PATH_TO_KEY` field requires the full path pointing to the key file. **Safety remark**: make sure to previously set the proper permissions to your key file: `chmod 400 my-key.pem`. For additional details upon your key scroll up to the **Before getting started** section in this repo.
+    3.4. The `KEY_NAME` field must include the name of your key **without** the extension. If your key file is `my-key.pem` only put `my-key`. The `PATH_TO_KEY` field requires the full path pointing to the key file. For additional details upon your key scroll up to the **Before getting started** section in this repo.
 
     3.5. In order to specify the `WORKER_SECURITY_GROUP` and `MASTER_SECURITY_GROUP` go to the [VPC Dashboard](https://console.aws.amazon.com/vpc) and from the left panel *Security* >> Security Groups . Note: if these two fields are left empty (default in the configuration file) the security groups are automatically assigned. **IMPORTANT:** to properly access the `JupyterNotebook` from the browser, the port `8192` has to be added to the inbound rules of your `MASTER_SECURITY_GROUP`. To achieve this, and once you are in the  Security Groups page, select your desired group:
 
