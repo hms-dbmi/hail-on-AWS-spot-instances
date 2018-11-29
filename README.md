@@ -4,7 +4,7 @@ This `cloudformation` tool  (MAC and Linux compatible) creates an EMR cluster us
 
 ## IMPORTANT: Software requirements
 
-This tool requires the following programs to be previously installed in your computer:
+This tool requires the following programs to be previously installed in your computer (see details in section **Before getting started**):
 * Python3, pip and some additional python libraries
 * Amazon's `Command Line Interface (CLI)` utility
 
@@ -19,7 +19,7 @@ brew install python3
 # Upgrades pip
 pip install --upgrade pip
 #Installs additional libraries
-pip install boto3 pandas botocore paramiko pyyaml -q
+sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml
 # Installs AWS CLI
 brew install awscli
 ```
@@ -35,7 +35,7 @@ brew install python3
 # Upgrades pip
 pip install --upgrade pip
 #Installs additional libraries
-pip install boto3 pandas botocore paramiko pyyaml -q
+sudo -H python3 pip install boto3 pandas botocore paramiko pyyaml
 # Installs AWS CLI
 brew install awscli
 ```
@@ -117,7 +117,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
     For instance pricing, follow the guidelines from step **3.1**. The price is given by the **zone** where your subnet is located.
 
-    3.3. The `S3_BUCKET` field specifies a location to store all the logs of your cluster (i.e. s3n://my-s3-bucket/). If you leave it blank ("") the log folder will be created under your **S3 root** folder. The log folder will have the same name as your automatically assigned EMR cluster ID (i.e. *j-123EMRLABEL321*)
+    3.3. The `S3_BUCKET` field specifies a location to store all the logs of your cluster (i.e. s3n://my-s3-bucket/). If you leave it blank ("") the log folder will be created under your **S3 root** folder. The log folder will have the same name as your automatically assigned EMR cluster ID (i.e. *j-123EMRID3210*)
 
     3.4. The `KEY_NAME` field must include the name of your key **without** the extension. If your key file is `my-key.pem` only put `my-key`. The `PATH_TO_KEY` field requires the full path pointing to the key file. **Safety remark**: make sure to previously set the proper permissions to your key file: `chmod 400 my-key.pem`. For additional details upon your key scroll up to the **Before getting started** section in this repo.
 
@@ -136,10 +136,14 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/starting_EMR.png" width="750">
 
-(Optional) If you would like to see the installation log open a new terminal and execute: `tail -f /tmp/cloudcreation_log.out`, press `control + C` to exit. The script will also provide the DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor progress. The installation log at master node  of your EMR is saved at same path: `/tmp/cloudcreation_log.out`.
+(Optional) The full log of the EMR provisioning can be found at: `/tmp/cloudcreation_log.out`.
 
 
-5. You can check the status of the EMR creation at: https://console.aws.amazon.com/elasticmapreduce. The EMR is successfully created once it gets the **Status** `Waiting` and a solid green circle next to it. After the cluster is created, allow for ~20 minutes for all the programs to be installed. All the programs are installed automatically:
+5. You can check the status of the EMR creation at: https://console.aws.amazon.com/elasticmapreduce. The EMR is successfully created once it gets the **Status** `Waiting` and a solid green circle to the left of the cluster Name.
+
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/emr_waiting.png" width="650">
+
+After the cluster is created, allow for automatic program installation and configuration (~20 minutes). No additional action is required but to wait for the installation process to complete. (Optional) In addition, the script will also provide the public DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor progress (the program installation log at the master node of your EMR is saved at the path: `/tmp/cloudcreation_log.out`):
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/successful_EMR.png" width="550">
 
@@ -150,7 +154,6 @@ To launch the  `JupyterNotebook` you need to paste the previously given IP (*`12
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="350">
 
 use password: **`avillach`** to login. If you successfully log in, you are all set!
-
 
 
 ## FAQs and troubleshooting
