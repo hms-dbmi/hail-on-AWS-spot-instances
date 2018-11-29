@@ -21,10 +21,13 @@ rm -f get-pip.py
 WHEELS="pyserial
 oauth
 argparse
+parsimonious
 wheel
 pandas
+utils
 jupyter
 numpy
+scipy
 bokeh"
 
 for WHEEL_NAME in $WHEELS

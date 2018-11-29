@@ -24,5 +24,5 @@ else
 fi
 
 
-echo "Starting EMR cluster. This operation takes 5-7 minutes..."
+echo "Starting EMR cluster. This operation takes 7-10 minutes..."
 python3 EMR_deploy_and_install_spot.py

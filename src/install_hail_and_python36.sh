@@ -4,7 +4,7 @@ exec 3>&1 4>&2
 trap 'exec 2>&4 1>&3' 0 1 2 3
 exec 1>/tmp/cloudcreation_log.out 2>&1
 
-export HAIL_HOME=/opt/hail-on-AWS-spot-instances
+export HAIL_HOME="/opt/hail-on-AWS-spot-instances"
 # Download Hail builds to use a specific relase
 # curl --output hail-all-spark.jar https://s3.amazonaws.com/avl-hail-73/hail_0.2_emr_5.10_spark_2.2.0/hail-all-spark.jar
 # curl --output hail-python.zip https://s3.amazonaws.com/avl-hail-73/hail_0.2_emr_5.10_spark_2.2.0/hail-python.zip
@@ -29,14 +29,11 @@ git clone https://github.com/hms-dbmi/hail-on-AWS-spot-instances.git
 
 # Update Python 3.6 in all the nodes in the cluster
 # First for the master node
-cd $HAIL_HOME/src/hail/hail/
-sudo chmod +x *.sh
-sudo chmod +x *.py
+cd $HAIL_HOME/src
 
 ./update_hail.sh
 ./install_python36.sh
 
-cd $HAIL_HOME/src
 # cd $HOME
 # wget -O hail-all-spark.jar https://storage.googleapis.com/hail-common/builds/devel/jars/hail-devel-ae9e34fb3cbf-Spark-2.2.0.jar
 # wget -O hail-python.zip https://storage.googleapis.com/hail-common/builds/devel/python/hail-devel-ae9e34fb3cbf.zip
@@ -57,7 +54,7 @@ sudo cp /usr/share/zoneinfo/America/New_York /etc/localtime
 sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2 > /tmp/t1.txt
 
 # setup crontab to check dropped instances every minute
-echo "*/1 * * * * /opt/hail-on-AWS-spot-instances/src/run_when_new_instance_added.sh >> /tmp/cloudcreation_log.out 2>&1 # min hr dom month dow" | crontab -
+sudo echo "* * * * * /opt/hail-on-AWS-spot-instances/src/run_when_new_instance_added.sh >> /tmp/cloudcreation_log.out 2>&1 # min hr dom month dow" | crontab -
 
 ./jupyter_build.sh
 ./jupyter_run.sh

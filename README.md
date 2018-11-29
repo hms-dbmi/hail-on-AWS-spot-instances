@@ -121,7 +121,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
     3.4. The `KEY_NAME` field must include the name of your key **without** the extension. If your key file is `my-key.pem` only put `my-key`. The `PATH_TO_KEY` field requires the full path pointing to the key file. **Safety remark**: make sure to previously set the proper permissions to your key file: `chmod 400 my-key.pem`. For additional details upon your key scroll up to the **Before getting started** section in this repo.
 
-    3.5. In order to specify the `WORKER_SECURITY_GROUP` and `MASTER_SECURITY_GROUP` go to the [VPC Dashboard](https://console.aws.amazon.com/vpc) and from the left panel *Security* >> Security Groups . Note: if these two fields are left empty (default in the configuration file) the security groups are automatically assigned. **IMPORTANT:** for security purposes, the port `8192` has to be added to the inbound rules of your `MASTER_SECURITY_GROUP`. To achieve this, and once you are in the  Security Groups page, select your desired group:
+    3.5. In order to specify the `WORKER_SECURITY_GROUP` and `MASTER_SECURITY_GROUP` go to the [VPC Dashboard](https://console.aws.amazon.com/vpc) and from the left panel *Security* >> Security Groups . Note: if these two fields are left empty (default in the configuration file) the security groups are automatically assigned. **IMPORTANT:** to properly access the `JupyterNotebook` from the browser, the port `8192` has to be added to the inbound rules of your `MASTER_SECURITY_GROUP`. To achieve this, and once you are in the  Security Groups page, select your desired group:
 
       <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group.png" width="1024">
 
@@ -132,20 +132,30 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
       Click [here]( https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-security-groups.html) for additional documentation on security groups.
 
 
-4. Once the configuration file is properly filled and saved, go back to the terminal and from the `src` folder `hail-on-AWS-spot-instances/src` execute the command: **`sh cloudformation_hail_spot.sh`**. The EMR cluster creation takes between 5-7 minutes (depending on EC2 availability). **DO NOT**  terminate the script execution as you will automatically get the IP address to connect to the `JypyterNotebook` in the form: **`123.456.0.1:8192`**. You can see the live installation log open a new terminal and execute: `tail -f /tmp/cloudcreation_log.out`, press `control + C` to exit. (Optional) The script will also provide the DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor progress. The installation log at master node  of your EMR is saved at same path: `/tmp/cloudcreation_log.out`.
+4. Once the configuration file is properly filled and saved, go back to the terminal and from the `src` folder `hail-on-AWS-spot-instances/src` execute the command: **`sh cloudformation_hail_spot.sh`**. The EMR cluster creation takes between 7-10 minutes (depending on EC2 availability). **DO NOT** terminate the script execution as you will automatically get the IP address to connect to the `JypyterNotebook` in the form: **`123.456.0.1:8192`**. Here's a sample screenshot  showing what you get once the cluster is successfully created:
+
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/starting_EMR.png" width="650">
+
+(Optional) If you would like to see the installation log open a new terminal and execute: `tail -f /tmp/cloudcreation_log.out`, press `control + C` to exit. The script will also provide the DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor progress. The installation log at master node  of your EMR is saved at same path: `/tmp/cloudcreation_log.out`.
 
 
-5. You can check the status of the EMR creation at: https://console.aws.amazon.com/elasticmapreduce. The EMR is successfully created once it gets the **Status** `Waiting` and a solid green circle next to it. After the cluster is created, allow for ~20 minutes for all the programs to be installed. All the programs are installed automatically.
+5. You can check the status of the EMR creation at: https://console.aws.amazon.com/elasticmapreduce. The EMR is successfully created once it gets the **Status** `Waiting` and a solid green circle next to it. After the cluster is created, allow for ~20 minutes for all the programs to be installed. All the programs are installed automatically:
+
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/successful_EMR.png" width="650">
 
 ## Launching the `JupyterNotebook`
 
-To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="60"> logo use password: **`avillach`** to login. If you successfully log in, you are all set!
+To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the following screen:
+
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="500">
+
+use password: **`avillach`** to login. If you successfully log in, you are all set!
 
 
 
 ## FAQs and troubleshooting
 
-Some times you may get sudden or unexpected errors. One of the reasons may be the fact that your initial spot instances can be dropped and replaced by a new instance (that's how the spot instance model works). This tool constantly --every minute-- checks for this behavior and will fix everything for you. For this and other `JupyterNotebook` glitches, you only need to restart the kernel by clicking on `Kernel` >> `Restart` or `Restart & Run All`:
+Some times you may get sudden or unexpected errors. One of the reasons may be the fact that your initial spot instances can be dropped and replaced by a new instance (that's how the spot instance model works). This `cloudformation` tool constantly --every minute-- checks for this behavior and will fix everything for you. For this and other `JupyterNotebook` glitches, you only need to restart the kernel by clicking on `Kernel` >> `Restart` or `Restart & Run All`:
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/kernel.png" width="550">
 
