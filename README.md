@@ -134,20 +134,20 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
 4. Once the configuration file is properly filled and saved, go back to the terminal and from the `src` folder `hail-on-AWS-spot-instances/src` execute the command: **`sh cloudformation_hail_spot.sh`**. The EMR cluster creation takes between 7-10 minutes (depending on EC2 availability). **DO NOT** terminate the script execution as you will automatically get the IP address to connect to the `JypyterNotebook` in the form: **`123.456.0.1:8192`**. Here's a sample screenshot  showing what you get once the cluster is successfully created:
 
-<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/starting_EMR.png" width="650">
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/starting_EMR.png" width="750">
 
 (Optional) If you would like to see the installation log open a new terminal and execute: `tail -f /tmp/cloudcreation_log.out`, press `control + C` to exit. The script will also provide the DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor progress. The installation log at master node  of your EMR is saved at same path: `/tmp/cloudcreation_log.out`.
 
 
 5. You can check the status of the EMR creation at: https://console.aws.amazon.com/elasticmapreduce. The EMR is successfully created once it gets the **Status** `Waiting` and a solid green circle next to it. After the cluster is created, allow for ~20 minutes for all the programs to be installed. All the programs are installed automatically:
 
-<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/successful_EMR.png" width="650">
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/successful_EMR.png" width="550">
 
 ## Launching the `JupyterNotebook`
 
 To launch the  `JupyterNotebook` you need to paste the previously given IP (*`123.456.0.1:8192`* this is the master node's IP pointing to port 8192) in a browser and hit `Enter`; once you see the following screen:
 
-<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="500">
+<img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/jupyter.png" width="350">
 
 use password: **`avillach`** to login. If you successfully log in, you are all set!
 
