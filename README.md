@@ -162,7 +162,13 @@ use password: **`avillach`** to login. If you successfully log in, you are all s
 
 ## FAQs and troubleshooting
 
-Some times you may get sudden or unexpected errors. One of the reasons may be the fact that your initial spot instances can be dropped and replaced by a new instance (that's how the spot instance model works). This `cloudformation` tool constantly --every minute-- checks for this behavior and will fix everything for you. For this and other `JupyterNotebook` glitches, you only need to restart the kernel by clicking on `Kernel` >> `Restart` or `Restart & Run All`:
+Some times you may get sudden or unexpected errors. One of the reasons may be the fact that your initial spot instances can be dropped and replaced by a new instance (that's how the spot instance model works). This `cloudformation` tool constantly --every minute-- checks for this behavior and will fix everything for you. A common error when an instance is replaced is:
+
+```java
+FatalError: ClassNotFoundException: is.hail.kryo.HailKryoRegistrator
+```
+
+For this and other `JupyterNotebook` glitches, you only need to restart the kernel by clicking on `Kernel` >> `Restart` or `Restart & Run All`:
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/kernel.png" width="550">
 
