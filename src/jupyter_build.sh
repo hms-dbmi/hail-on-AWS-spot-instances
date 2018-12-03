@@ -22,7 +22,7 @@ sudo rm -fR /etc/sbt/conf
 ./jupyter_installer.sh \
 	# --r \
 	--spark-version "2.3.0" \
-	--toree \
+	# --toree \
 	--ds-packages \
 	--password "avillach" \
 	--port 8192\

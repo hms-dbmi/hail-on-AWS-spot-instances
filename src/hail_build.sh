@@ -38,6 +38,7 @@ done
 if [ "$IS_MASTER" = true ]; then
   sudo yum update -y
   sudo yum install g++ cmake git -y
+  sudo yum -y install gcc72-c++ # Fixes issue with c++14 incompatibility in Amazon Linux
   sudo /usr/local/bin/pip install --upgrade pip
   # Fixes issue of missing lz4
   sudo yum install -y lz4
