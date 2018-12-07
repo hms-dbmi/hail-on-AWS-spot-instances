@@ -4,7 +4,8 @@
 sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2 > /tmp/t2.txt
 # Queries for the Ec2 core instance IDs
 CLUSTERID="$(jq -r .jobFlowId /mnt/var/lib/info/job-flow.json)"
-aws emr list-instances --cluster-id ${CLUSTERID} | jq -r .Instances[].Ec2InstanceId > /tmp/ec2list2.txt
+REGION="$(jq -r .region /mnt/var/lib/info/extraInstanceData.json)"
+aws emr list-instances --cluster-id ${CLUSTERID} --region ${REGION} | jq -r .Instances[].Ec2InstanceId > /tmp/ec2list2.txt
 # Check if there was an EC2 addition
 if [ -z "`diff /tmp/ec2list2.txt /tmp/ec2list1.txt`" ]; then
   echo "No new instances added"
@@ -23,7 +24,7 @@ else
      # Distribute Hail files
      scp /home/hadoop/hail-* ${WORKERIP}:/home/hadoop/
      sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2 > /tmp/t1.txt
-     aws emr list-instances --cluster-id ${CLUSTERID} | jq -r .Instances[].Ec2InstanceId > /tmp/ec2list1.txt
+     aws emr list-instances --cluster-id ${CLUSTERID} --region ${REGION} | jq -r .Instances[].Ec2InstanceId > /tmp/ec2list1.txt
      sudo stop hadoop-yarn-resourcemanager; sleep 1; sudo start hadoop-yarn-resourcemanager
   done
 fi
