@@ -66,21 +66,22 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
     ```yaml
     config:
-      EMR_CLUSTER_NAME: "my-hail-02-cluster" # Give a name to your EMR cluster
-      EC2_NAME_TAG: "my-hail-EMR" # Adds a tag to the individual EC2 instances
-      OWNER_TAG: "emr-owner" # EC2 owner tag
-      PROJECT_TAG: "my-project" # Project tag
-      REGION: "us-east-1"
-      MASTER_INSTANCE_TYPE: "m4.large"
-      WORKER_INSTANCE_TYPE: "r4.4xlarge"
-      WORKER_COUNT: "2" # Number of worker nodes
-      WORKER_BID_PRICE: "0.44" # Required for spot instances
-      SUBNET_ID: "" # This field can be either left blank or for further security you can specify your private subnet ID in the form: subnet-1a2b3c4d
-      S3_BUCKET: "s3n://my-s3-bucket/" # Specify your S3 bucket for EMR log storage
-      KEY_NAME: "my-key" # Input your key name ONLY! DO NOT include the .pem extension
-      PATH_TO_KEY: "/full-path-to/my-key/" # Full path to the .pem file
-      WORKER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
-      MASTER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
+        EMR_CLUSTER_NAME: "my-hail-02-cluster" # Give a name to your EMR cluster
+        EC2_NAME_TAG: "my-hail-EMR" # Adds a tag to the individual EC2 instances
+        OWNER_TAG: "emr-owner" # EC2 owner tag
+        PROJECT_TAG: "my-project" # Project tag
+        REGION: "us-east-1"
+        MASTER_INSTANCE_TYPE: "m4.large"
+        WORKER_INSTANCE_TYPE: "r4.4xlarge"
+        WORKER_COUNT: "2" # Number of worker nodes
+        WORKER_BID_PRICE: "0.44" # Required for spot instances
+        SUBNET_ID: "" # This field can be either left blank or for further security you can specify your private subnet ID in the form: subnet-1a2b3c4d
+        S3_BUCKET: "s3n://my-s3-bucket/" # Specify your S3 bucket for EMR log storage
+        KEY_NAME: "my-key" # Input your key name ONLY! DO NOT include the .pem extension
+        PATH_TO_KEY: "/full-path-to/my-key/" # Full path to the .pem file
+        WORKER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
+        MASTER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
+        HAIL_VERSION: "current" # Specify a git hash version (the first 8-12 characters will suffice) to install a specific commit/version. When left empty or "current" will install the latest version of Hail available in the repo
     ```
 
     3.1. Select the **EC2** instances for your `MASTER_INSTANCE_TYPE` and your `WORKER_INSTANCE_TYPE`. It is recommended to use a small generic EC2 for the master, such as  `m4.large`, and more powerful EC2s (compute or memory optimized) for your worker nodes such as `r4.4large`. See the different EC2 types [available  here](https://aws.amazon.com/ec2/instance-types/).
@@ -135,6 +136,9 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
       Click [here]( https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-security-groups.html) for additional documentation on security groups.
 
+      3.6. In case you desire to perform analysis in **Hail** under a specific version, the option `HAIL_VERSION` accepts either the abbreviated or the full SHA-1 hash. The script will accept any hash between 7-40 characters. The default is "current". If the specific hash is not given or if it wasn't found, the latest available version will be installed.
+
+      <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/git_hash.png" width="1024">
 
 4. Once the configuration file is properly filled and saved, go back to the terminal and from the `src` folder `hail-on-AWS-spot-instances/src` execute the command: **`sh cloudformation_hail_spot.sh`**. The EMR cluster creation takes between 7-10 minutes (depending on EC2 availability). **DO NOT** terminate the script execution as you will automatically get the IP address to connect to the `JypyterNotebook` in the form: **`123.456.0.1:8192`**. Here's a sample screenshot  showing what you get once the cluster is successfully created:
 
