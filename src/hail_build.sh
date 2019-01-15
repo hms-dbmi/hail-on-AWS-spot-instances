@@ -90,7 +90,7 @@ if [ "$IS_MASTER" = true ]; then
     sudo yum install -y lz4-devel
     git clone https://github.com/broadinstitute/hail.git
     cd hail/hail/
-    # git checkout $HAIL_VERSION
+    git checkout $HAIL_VERSION
     GIT_HASH="$(git log --pretty=oneline | grep $HASH | cut -f 1 -d ' ')"
 
     if [ ${#HASH} -lt 7 ]; then

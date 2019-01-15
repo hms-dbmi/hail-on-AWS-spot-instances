@@ -28,10 +28,10 @@ utils
 jupyter
 numpy
 scipy
-bokeh"
+bokeh
+requests"
 
 for WHEEL_NAME in $WHEELS
 do
-	#sudo python -m pip install $WHEEL_NAME
 	sudo python3 -m pip install $WHEEL_NAME
 done
