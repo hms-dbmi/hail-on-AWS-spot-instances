@@ -91,13 +91,13 @@ if [ "$IS_MASTER" = true ]; then
     git clone https://github.com/broadinstitute/hail.git
     cd hail/hail/
     git checkout $HAIL_VERSION
-    GIT_HASH="$(git log --pretty=oneline | grep $HASH | cut -f 1 -d ' ')"
+    GIT_HASH="$(git log --pretty=format:"%H" | grep $HASH | cut -f 1 -d ' ')"
 
     if [ ${#HASH} -lt 7 ]; then
     	if [ $HASH = "current" ]; then
     		echo "Hail will be compiled using the latest repository version available"
     	else
-    		echo "The git hash provided has less than 7 characters. The latest version of Hail will be compiled"
+    		echo "The git hash provided has less than 7 characters. The latest version of Hail will be compiled!"
     		# exit 1
     	fi
     else
