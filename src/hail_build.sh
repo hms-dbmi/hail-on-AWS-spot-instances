@@ -81,13 +81,13 @@ done
 echo "Buiding Hail from $HASH"
 
 if [ "$IS_MASTER" = true ]; then
-    # sudo yum update -y
-    # sudo yum install g++ cmake git -y
-    # sudo yum -y install gcc72-c++ # Fixes issue with c++14 incompatibility in Amazon Linux
+    sudo yum update -y
+    sudo yum install g++ cmake git -y
+    sudo yum -y install gcc72-c++ # Fixes issue with c++14 incompatibility in Amazon Linux
     sudo /usr/local/bin/pip install --upgrade pip
-    # # Fixes issue of missing lz4
-    # sudo yum install -y lz4
-    # sudo yum install -y lz4-devel
+    # Fixes issue of missing lz4
+    sudo yum install -y lz4
+    sudo yum install -y lz4-devel
     git clone https://github.com/broadinstitute/hail.git
     cd hail/hail/
     git checkout $HAIL_VERSION

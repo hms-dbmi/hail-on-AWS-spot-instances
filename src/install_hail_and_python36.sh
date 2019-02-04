@@ -62,7 +62,7 @@ sudo mkdir -p /opt
 sudo chmod 777 /opt/
 sudo chown hadoop:hadoop /opt
 cd /opt
-# sudo yum install -y git  # In case git is not installed
+sudo yum install -y git  # In case git is not installed
 git clone https://github.com/hms-dbmi/hail-on-AWS-spot-instances.git
 
 # Update Python 3.6 in all the nodes in the cluster
@@ -70,7 +70,7 @@ git clone https://github.com/hms-dbmi/hail-on-AWS-spot-instances.git
 cd $HAIL_HOME/src
 
 ./update_hail.sh -v $HASH
-# ./install_python36.sh
+./install_python36.sh
 
 # cd $HOME
 # wget -O hail-all-spark.jar https://storage.googleapis.com/hail-common/builds/devel/jars/hail-devel-ae9e34fb3cbf-Spark-2.2.0.jar
