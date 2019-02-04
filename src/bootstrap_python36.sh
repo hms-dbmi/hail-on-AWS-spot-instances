@@ -3,10 +3,10 @@ set -e
 
 if grep isMaster /mnt/var/lib/info/instance.json | grep true; then
   IS_MASTER=true
+  echo "Master node!"
 fi
 
 sudo yum update -y
-sudo /usr/local/bin/pip install --upgrade pip
 
 if [ "$IS_MASTER" = true ]; then
 	sudo yum install -y git  # In case git is not installed
