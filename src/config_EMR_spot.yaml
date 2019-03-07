@@ -11,7 +11,7 @@ config:
   SUBNET_ID: "" # This field can be either left blank or for further security you can specify your private subnet ID in the form: subnet-1a2b3c4d
   S3_BUCKET: "s3n://my-s3-bucket/" # Specify your S3 bucket for EMR log storage
   KEY_NAME: "my-key" # Input your key name ONLY! DO NOT include the .pem extension
-  PATH_TO_KEY: "/full-path-to/my-key/" # Full path to the .pem file
+  PATH_TO_KEY: "/full-path-to/my-key/" # Full path to the FOLDER where the .pem file resides
   WORKER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
   MASTER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
   HAIL_VERSION: "current" # Specify a git hash version (the first 7-12 characters will suffice) to install a specific commit/version. When left empty or "current" will install the latest version of Hail available in the repo

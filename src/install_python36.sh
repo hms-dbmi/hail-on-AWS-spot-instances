@@ -29,7 +29,8 @@ jupyter
 numpy
 scipy
 bokeh
-requests"
+requests
+boto3"
 
 for WHEEL_NAME in $WHEELS
 do

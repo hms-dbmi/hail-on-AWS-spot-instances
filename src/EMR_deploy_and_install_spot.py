@@ -49,7 +49,7 @@ while (status_EMR!='EMPTY'):
 
 # Get public DNS from master node
 master_dns=details_EMR.get('Cluster').get('MasterPublicDnsName')
-master_IP=re.sub("-",".",master_dns.split(".compute")[0].split("ec2-")[1])
+master_IP=re.sub("-",".",master_dns.split(".")[0].split("ec2-")[1])
 
 print('\nMaster DNS: '+ master_dns)
 # print('Master IP: '+ master_IP+'\n')

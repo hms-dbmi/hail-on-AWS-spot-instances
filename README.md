@@ -78,7 +78,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
       SUBNET_ID: "" # This field can be either left blank or for further security you can specify your private subnet ID in the form: subnet-1a2b3c4d
       S3_BUCKET: "s3n://my-s3-bucket/" # Specify your S3 bucket for EMR log storage
       KEY_NAME: "my-key" # Input your key name ONLY! DO NOT include the .pem extension
-      PATH_TO_KEY: "/full-path-to/my-key/" # Full path to the .pem file
+      PATH_TO_KEY: "/full-path-to/my-key/" # # Full path to the FOLDER where the .pem file resides
       WORKER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
       MASTER_SECURITY_GROUP: "" # If empty creates a new group by default. You can also add a specific SG. See the SG link in the FAQs section
       HAIL_VERSION: "current" # Specify a git hash version (the first 7-12 characters will suffice) to install a specific commit/version. When left empty or "current" will install the latest version of Hail available in the repo
@@ -130,7 +130,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
       <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group.png" width="1024">
 
-      Click on the **Inbound Rules** tab to double check if port `8192` is on the list. To add the port click on **Edit Rules** and use one of the two configurations suggested below:
+      Click on the **Inbound Rules** tab to double check that ports `8192` and `22` are on the list. To add/edit port rules click on **Edit rules** and use **one** of the two configurations suggested below:
 
       <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/security_group_options.png" width="1024">
 
@@ -166,6 +166,8 @@ use password: **`avillach`** to login. If you successfully log in, you are all s
 
 
 ## FAQs and troubleshooting
+
+* If after executing `sh cloudformation_hail_spot.sh` you get an error message saying that "variable cluster_id_json is out of range" it means that the CLI command `aws emr create-cluster --applications Name=Hadoop Name=Spark ...` did not retrieve a cluster ID. This error occurs due to different reasons: a defective AWS account configuration (`aws configure`), the user needs additional permits such as AmazonElasticMapReduce* or  AmazonEC2*. 
 
 * Some times you may get sudden or unexpected errors. One of the reasons may be the fact that your initial spot instances can be dropped and replaced by a new instance (that's how the spot instance model works). This `cloudformation` tool constantly --every minute-- checks for this behavior and will fix everything for you. A common error when an instance is replaced is:
 
