@@ -68,8 +68,6 @@ git clone https://github.com/hms-dbmi/hail-on-AWS-spot-instances.git
 # Update Python 3.6 in all the nodes in the cluster
 # First for the master node
 cd $HAIL_HOME/src
-
-./update_hail.sh -v $HASH
 ./install_python36.sh
 
 # cd $HOME
@@ -82,9 +80,11 @@ do
    scp /home/hadoop/hail-* $WORKERIP:/home/hadoop/
    scp install_python36.sh hadoop@${WORKERIP}:/tmp/install_python36.sh
    ssh hadoop@${WORKERIP} "sudo ls -al /tmp/install_python36.sh"
-   ssh hadoop@${WORKERIP} "sudo /tmp/install_python36.sh"
-   ssh hadoop@${WORKERIP} "python3 --version"
+   ssh hadoop@${WORKERIP} "sudo /tmp/install_python36.sh &"  
+   # ssh hadoop@${WORKERIP} "python3 --version"
 done
+
+./update_hail.sh -v $HASH
 
 # Set the time zone for cronupdates
 sudo cp /usr/share/zoneinfo/America/New_York /etc/localtime

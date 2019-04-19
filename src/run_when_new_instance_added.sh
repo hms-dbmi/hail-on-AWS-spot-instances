@@ -19,8 +19,8 @@ else
      # Install Python 3
      scp /opt/hail-on-AWS-spot-instances/src/install_python36.sh hadoop@${WORKERIP}:/tmp/install_python36.sh
      ssh hadoop@${WORKERIP} "sudo ls -al /tmp/install_python36.sh"
-     ssh hadoop@${WORKERIP} "sudo /tmp/install_python36.sh"
-     ssh hadoop@${WORKERIP} "python3 --version"
+     ssh hadoop@${WORKERIP} "sudo /tmp/install_python36.sh &" 
+     # ssh hadoop@${WORKERIP} "python3 --version"
      # Distribute Hail files
      scp /home/hadoop/hail-* ${WORKERIP}:/home/hadoop/
      sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2 > /tmp/t1.txt

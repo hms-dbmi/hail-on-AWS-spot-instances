@@ -52,4 +52,4 @@ do
 	scp $HOME/hail-* $WORKERIP:/home/hadoop/
 done
 
-sudo stop hadoop-yarn-resourcemanager; sleep 2; sudo start hadoop-yarn-resourcemanager
+sudo stop hadoop-yarn-resourcemanager; sleep 1; sudo start hadoop-yarn-resourcemanager
