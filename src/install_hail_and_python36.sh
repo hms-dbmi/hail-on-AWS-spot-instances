@@ -47,13 +47,13 @@ while [ "$1" != "" ]; do
     shift
 done
 
+chmod 700 $HOME/.ssh/id_rsa/
 KEY=$(ls ~/.ssh/id_rsa/)
 
 for WORKERIP in `sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2`
 do
    # Distribute keys to workers
-   scp  -o "StrictHostKeyChecking no" -i ~/.ssh/id_rsa/${KEY} ~/.ssh/id_rsa ${WORKERIP}:/home/hadoop/.ssh/id_rsa/
-   scp -i ~/.ssh/id_rsa/${KEY} ~/.ssh/authorized_keys ${WORKERIP}:/home/hadoop/.ssh/authorized_keys
+   scp -o "StrictHostKeyChecking no" -i ~/.ssh/id_rsa/${KEY} ~/.ssh/authorized_keys ${WORKERIP}:/home/hadoop/.ssh/authorized_keys
 done
 
 echo 'Keys successfully copied to the worker nodes'

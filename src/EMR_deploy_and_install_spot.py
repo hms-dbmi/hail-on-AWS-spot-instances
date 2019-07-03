@@ -63,7 +63,7 @@ command='scp -o \'StrictHostKeyChecking no\' -i '+c['config']['PATH_TO_KEY']+c['
 os.system(command)
 
 print('Installing software...')
-print('Allow 10-25 minutes for full installation')
+print('Allow 4-8 minutes for full installation')
 print('\n This is your Jupyter Lab link: '+ master_IP+':8192\n')
 key = paramiko.RSAKey.from_private_key_file(c['config']['PATH_TO_KEY']+c['config']['KEY_NAME']+'.pem')
 client = paramiko.SSHClient()

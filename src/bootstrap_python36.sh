@@ -4,7 +4,7 @@ set -e
 export PATH=$PATH:/usr/local/bin
 
 cd $HOME
-
+mkdir -p $HOME/.ssh/id_rsa
 sudo yum install python36 python36-devel python36-setuptools -y 
 sudo easy_install pip
 sudo python3 -m pip install --upgrade pip
