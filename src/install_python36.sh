@@ -2,35 +2,42 @@
 
 export PATH=$PATH:/usr/local/bin
 
-sudo yum update -y
-sudo yum install -y python36
-sudo yum install -y python36-devel
-sudo yum install -y python36-setuptools
+sudo yum install python36 python36-devel python36-setuptools -y 
 sudo easy_install pip
-
-sudo python -m pip install --upgrade pip
-wget https://bootstrap.pypa.io/get-pip.py
-# Install latest pip
-sudo python3 get-pip.py
-sudo python get-pip.py
-# Upgrade latest latest pip
-sudo python -m pip install --upgrade pip
 sudo python3 -m pip install --upgrade pip
-rm -f get-pip.py
 
-WHEELS="pyserial
-oauth
-argparse
-parsimonious
-wheel
-pandas
-utils
-jupyter
-numpy
-scipy
-bokeh
-requests
-boto3"
+if grep isMaster /mnt/var/lib/info/instance.json | grep true; then
+	# Master node: Install all
+	WHEELS="pyserial
+	oauth
+	argparse
+	parsimonious
+	wheel
+	pandas
+	utils
+	ipywidgets
+	numpy
+	scipy
+	bokeh
+	requests
+	boto3
+	jupyterlab"
+else 
+	# Worker node: Install all but jupyter lab
+	WHEELS="pyserial
+	oauth
+	argparse
+	parsimonious
+	wheel
+	pandas
+	utils
+	ipywidgets
+	numpy
+	scipy
+	bokeh
+	requests
+	boto3"
+fi
 
 for WHEEL_NAME in $WHEELS
 do

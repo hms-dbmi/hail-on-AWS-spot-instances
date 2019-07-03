@@ -1,6 +1,6 @@
 # Hail on Amazon EMR: `cloudformation` tool with spot instances
 
-This `cloudformation` tool  (MAC and Linux compatible) creates an EMR cluster using [spot instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html), a cost effective option  (using a bid price) to deploy clusters. Once your cluster is up and running it will have both the latest [**Hail 0.2**](https://www.hail.is) version and `JupyterNotebook` installed.
+This `cloudformation` tool  (MAC and Linux compatible) creates an EMR 5.23.0 cluster with Spark 2.4.0, using [spot instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html), a cost effective option  (using a bid price) to deploy clusters. Once your cluster is up and running it will have the latest [**Hail 0.2**](https://www.hail.is) version and `Jupyter Lab` installed.
 
 ## IMPORTANT: Software requirements
 
@@ -46,7 +46,7 @@ brew install awscli
 
 ## Before getting started
 
-This tool is executed from the terminal/command line using Amazon's `CLI` utility. Before spinning gears, make sure you have:
+This tool is executed from the command line using Amazon's `CLI` utility. Before spinning gears, make sure you have:
 
 a) **A configured `CLI` account**. From the terminal execute `aws configure`, [click here](https://docs.aws.amazon.com/cli/latest/userguide/cli-chap-getting-started.html) for additional information. If your `CLI` account has been previously configured, the tool will use such configuration by default. If you want to re-configure and use a specific account or a different user, execute `aws configure` and re-configure your account
 
@@ -71,10 +71,12 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
       OWNER_TAG: "emr-owner" # EC2 owner tag
       PROJECT_TAG: "my-project" # Project tag
       REGION: "us-east-1"
-      MASTER_INSTANCE_TYPE: "m4.large"
-      WORKER_INSTANCE_TYPE: "r4.4xlarge"
-      WORKER_COUNT: "2" # Number of worker nodes
+      MASTER_INSTANCE_TYPE: "m4.large" # Suggested EC2 instances, change as desired 
+      WORKER_INSTANCE_TYPE: "r4.xlarge" # Suggested EC2 instances, change as desired 
+      WORKER_COUNT: "4" # Number of worker nodes
       WORKER_BID_PRICE: "0.44" # Required for spot instances
+      MASTER_HD_SIZE: "50" # Size in GB - For large data sets, more HD space may be required
+      WORKER_HD_SIZE: "150" # Size in GB - For large data sets, more HD space may be required (i.e. ~500GB for the 1KG Phase 3)
       SUBNET_ID: "" # This field can be either left blank or for further security you can specify your private subnet ID in the form: subnet-1a2b3c4d
       S3_BUCKET: "s3n://my-s3-bucket/" # Specify your S3 bucket for EMR log storage
       KEY_NAME: "my-key" # Input your key name ONLY! DO NOT include the .pem extension
@@ -84,13 +86,15 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
       HAIL_VERSION: "current" # Specify a git hash version (the first 7-12 characters will suffice) to install a specific commit/version. When left empty or "current" will install the latest version of Hail available in the repo
     ```
 
-    3.1. Select the **EC2** instances for your `MASTER_INSTANCE_TYPE` and your `WORKER_INSTANCE_TYPE`. It is recommended to use a small generic EC2 for the master, such as  `m4.large`, and more powerful EC2s (compute or memory optimized) for your worker nodes such as `r4.4large`. See the different EC2 types [available  here](https://aws.amazon.com/ec2/instance-types/).
+    3.1. Select the **EC2** instances for your `MASTER_INSTANCE_TYPE` and your `WORKER_INSTANCE_TYPE`. It is recommended to use a small generic EC2 for the master, such as  `m4.large`, and more powerful EC2s (compute or memory optimized) for your worker nodes such as `r4.4large` or `m4.4xlarge`. [Visit this link](https://aws.amazon.com/ec2/instance-types/) to see the different types of EC2 instances.
 
     |Suggested EC2s (**`WORKER_INSTANCE_TYPE`**) |
     |:-------------------------:|
     | c4.4xlarge |
     | r4.2xlarge |
     | r4.4xlarge |
+    | m4.4xlarge |
+    | i3.4xlarge |
 
     Since we are using spot instances, the worker nodes require a maximum bid price to be specified. The field `WORKER_BID_PRICE` specifies the maximum cost that we will pay for each of the worker nodes. To choose an accurate and competitive bid price for your worker nodes, login to the [EMR management console](https://console.aws.amazon.com/elasticmapreduce):
 
@@ -152,7 +156,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/emr_waiting.png" width="650">
 
-After the cluster is created, allow for automatic program installation and configuration (~20 minutes). No additional action is required but to wait for the installation process to complete. (Optional) In addition, the script will also provide the public DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor progress (the program installation log at the master node of your EMR is saved at the path: `/tmp/cloudcreation_log.out`):
+After the cluster is created, allow for automatic program installation and configuration (~10-25 minutes depending on the number of worker nodes). No additional action is required but to wait for the installation process to complete. (Optional) In addition, the script will also provide the public DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor cluster progress and status (the program installation log at the master node of your EMR is saved at the path: `/tmp/cloudcreation_log.out`):
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/successful_EMR.png" width="550">
 
@@ -175,7 +179,7 @@ use password: **`avillach`** to login. If you successfully log in, you are all s
 FatalError: ClassNotFoundException: is.hail.kryo.HailKryoRegistrator
 ```
 
-* For this and other `JupyterNotebook` glitches, you only need to restart the kernel by clicking on `Kernel` >> `Restart` or `Restart & Run All`:
+* For this and other `Jupyter Lab` glitches, you only need to restart the kernel by clicking on `Kernel` >> `Restart` or `Restart & Run All`:
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/kernel.png" width="550">
 

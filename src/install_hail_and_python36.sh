@@ -47,12 +47,13 @@ while [ "$1" != "" ]; do
     shift
 done
 
+KEY=$(ls ~/.ssh/id_rsa/)
+
 for WORKERIP in `sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2`
 do
-   # Distribute keys to slaves for hadoop account
-   scp -o "StrictHostKeyChecking no" ~/.ssh/id_rsa ${WORKERIP}:/home/hadoop/.ssh/id_rsa
-   scp ~/.ssh/authorized_keys ${WORKERIP}:/home/hadoop/.ssh/authorized_keys
-   # Distribute the freshly built Hail files
+   # Distribute keys to workers
+   scp  -o "StrictHostKeyChecking no" -i ~/.ssh/id_rsa/${KEY} ~/.ssh/id_rsa ${WORKERIP}:/home/hadoop/.ssh/id_rsa/
+   scp -i ~/.ssh/id_rsa/${KEY} ~/.ssh/authorized_keys ${WORKERIP}:/home/hadoop/.ssh/authorized_keys
 done
 
 echo 'Keys successfully copied to the worker nodes'
@@ -62,38 +63,32 @@ sudo mkdir -p /opt
 sudo chmod 777 /opt/
 sudo chown hadoop:hadoop /opt
 cd /opt
-sudo yum install -y git  # In case git is not installed
 git clone https://github.com/hms-dbmi/hail-on-AWS-spot-instances.git
-
-# Update Python 3.6 in all the nodes in the cluster
-# First for the master node
 cd $HAIL_HOME/src
-./install_python36.sh
 
-# cd $HOME
-# wget -O hail-all-spark.jar https://storage.googleapis.com/hail-common/builds/devel/jars/hail-devel-ae9e34fb3cbf-Spark-2.2.0.jar
-# wget -O hail-python.zip https://storage.googleapis.com/hail-common/builds/devel/python/hail-devel-ae9e34fb3cbf.zip
-# cd $HAIL_HOME/src
-# Then for the worker nodes
-for WORKERIP in `sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2`
-do
-   scp /home/hadoop/hail-* $WORKERIP:/home/hadoop/
-   scp install_python36.sh hadoop@${WORKERIP}:/tmp/install_python36.sh
-   ssh hadoop@${WORKERIP} "sudo ls -al /tmp/install_python36.sh"
-   ssh hadoop@${WORKERIP} "sudo /tmp/install_python36.sh &"  
-   # ssh hadoop@${WORKERIP} "python3 --version"
-done
-
+# Compile Hail
 ./update_hail.sh -v $HASH
 
-# Set the time zone for cronupdates
+# Update to Python 3.6 (Not needed anymore - the bootstrap action takes care of it)
+# First for the master node
+# ./install_python36.sh
+# Then for the worker nodes
+# for WORKERIP in `sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2`
+# do
+#    scp -i ~/.ssh/id_rsa/${KEY} install_python36.sh hadoop@${WORKERIP}:/tmp/install_python36.sh
+#    ssh -i ~/.ssh/id_rsa/${KEY} hadoop@${WORKERIP} "sudo ls -al /tmp/install_python36.sh"
+#    ssh -i ~/.ssh/id_rsa/${KEY} hadoop@${WORKERIP} "sudo /tmp/install_python36.sh &"  
+# done
+
+# Set the time zone for cron updates
 sudo cp /usr/share/zoneinfo/America/New_York /etc/localtime
 
+# Get IPs and names of EC2 instances (workers) to monitor if a worker dropped  
 sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2 > /tmp/t1.txt
+CLUSTERID="$(jq -r .jobFlowId /mnt/var/lib/info/job-flow.json)"
 aws emr list-instances --cluster-id ${CLUSTERID} | jq -r .Instances[].Ec2InstanceId > /tmp/ec2list1.txt
 
-# setup crontab to check dropped instances every minute
+# Setup crontab to check dropped instances every minute and install SW as needed in new instances 
 sudo echo "* * * * * /opt/hail-on-AWS-spot-instances/src/run_when_new_instance_added.sh >> /tmp/cloudcreation_log.out 2>&1 # min hr dom month dow" | crontab -
 
-./jupyter_build.sh
 ./jupyter_run.sh

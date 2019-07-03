@@ -43,7 +43,7 @@ done
 
 OUTPUT_PATH=""
 HAIL_VERSION="master"
-SPARK_VERSION="2.3.0"
+SPARK_VERSION="2.4.0"
 COMPILE=true
 IS_MASTER=false
 export TEST=""
@@ -78,13 +78,12 @@ while [ $# -gt 0 ]; do
     shift
 done
 
-echo "Buiding Hail from $HASH"
+echo "Building Hail from $HASH"
 
 if [ "$IS_MASTER" = true ]; then
     sudo yum install g++ cmake git -y
     sudo yum -y install gcc72-c++ # Fixes issue with c++14 incompatibility in Amazon Linux
-    # Fixes issue of missing lz4
-    sudo yum install -y lz4
+    sudo yum install -y lz4 # Fixes issue of missing lz4
     sudo yum install -y lz4-devel
     git clone https://github.com/broadinstitute/hail.git
     cd hail/hail/
@@ -113,12 +112,14 @@ if [ "$IS_MASTER" = true ]; then
     	fi
     fi
 
-    sudo ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.171-7.b10.37.amzn1.x86_64/include /etc/alternatives/jre/include
+
+    sudo ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.201.b09-0.43.amzn1.x86_64/include /etc/alternatives/jre/include
+    make clean 
 
     if [ "$COMPILE" = true ]; then
-        # Compile with Spark 2.3.0
-        if [ $SPARK_VERSION = "2.3.0" ]; then
-          ./gradlew -Dspark.version=$SPARK_VERSION -Dbreeze.version=0.13.2 -Dpy4j.version=0.10.6 shadowJar archiveZip
+        # Compile with Spark 2.4.0
+        if [ $SPARK_VERSION = "2.4.0" ]; then
+          ./gradlew -Dspark.version=$SPARK_VERSION -Dbreeze.version=0.13.2 -Dpy4j.version=0.10.6 shadowJar archiveZip 
       else  ./gradlew -Dspark.version=$SPARK_VERSION shadowJar archiveZip # Compile with Spark 2.2.0
         fi
           cp $PWD/build/distributions/hail-python.zip $HOME
