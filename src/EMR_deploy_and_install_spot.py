@@ -23,11 +23,10 @@ cluster_id_json=os.popen(command).read()
 cluster_id=cluster_id_json.split(": \"",1)[1].split("\"\n")[0]
 
 # Gives EMR cluster information
-client_EMR = boto3.client('emr')
+client_EMR = boto3.client('emr', region_name=c['config']['REGION'])
 
 # Cluster state update
 status_EMR='STARTING'
-time.sleep(3)
 tic = time.time()
 # Wait until the cluster is created
 while (status_EMR!='EMPTY'):

@@ -98,14 +98,14 @@ if [ "$IS_MASTER" = true ]; then
     		# exit 1
     	fi
     else
-    	export TEST="$(aws s3 ls s3://dbmi-hail/hail-versions/ | grep $HASH | sed -e 's/^[ \t]*//' | cut -d " " -f 2)"
+    	export TEST="$(aws s3 ls s3://hms-dbmi-docs/hail-versions/ | grep $HASH | sed -e 's/^[ \t]*//' | cut -d " " -f 2)"
     	if [ -z "$TEST" ] || [-z "$GIT_HASH" ]; then
     		echo "Hail pre-compiled version not found!"
             echo "Compiling Hail with git hash: $GIT_HASH"
             git reset --hard $GIT_HASH
     	else
     		echo "Hail pre-compiled version found: $TEST"
-            aws s3 cp s3://dbmi-hail/hail-versions/$TEST $HOME/ --recursive
+            aws s3 cp s3://hms-dbmi-docs/hail-versions/$TEST $HOME/ --recursive
             GIT_HASH="$(echo $TEST | cut -d "-" -f 1)"
             git reset --hard $GIT_HASH
             COMPILE=false
