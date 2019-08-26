@@ -46,6 +46,8 @@ HAIL_VERSION="master"
 SPARK_VERSION="2.4.0"
 COMPILE=true
 IS_MASTER=false
+GRADLE_DEPRECATION=1566593776
+SELECTED_VERSION=$GRADLE_DEPRECATION
 export TEST=""
 export CXXFLAGS=-march=native
 
@@ -103,6 +105,7 @@ if [ "$IS_MASTER" = true ]; then
     		echo "Hail pre-compiled version not found!"
             echo "Compiling Hail with git hash: $GIT_HASH"
             git reset --hard $GIT_HASH
+            SELECTED_VERSION=`git show -s --format=%ct $GIT_HASH`
     	else
     		echo "Hail pre-compiled version found: $TEST"
             aws s3 cp s3://hms-dbmi-docs/hail-versions/$TEST $HOME/ --recursive
@@ -112,17 +115,22 @@ if [ "$IS_MASTER" = true ]; then
     	fi
     fi
 
-
-    sudo ln -s /usr/lib/jvm/java-1.8.0-openjdk-1.8.0.201.b09-0.43.amzn1.x86_64/include /etc/alternatives/jre/include
-    make clean 
+    LATEST_JDK=`ls  /usr/lib/jvm/ | grep "java-1.8.0-openjdk-1.8"`
+    sudo  ln -s /usr/lib/jvm/$LATEST_JDK/include /etc/alternatives/jre/include
+     
 
     if [ "$COMPILE" = true ]; then
         # Compile with Spark 2.4.0
-        if [ $SPARK_VERSION = "2.4.0" ]; then
-          ./gradlew -Dspark.version=$SPARK_VERSION -Dbreeze.version=0.13.2 -Dpy4j.version=0.10.6 shadowJar archiveZip 
-      else  ./gradlew -Dspark.version=$SPARK_VERSION shadowJar archiveZip # Compile with Spark 2.2.0
+        if [ $SELECTED_VERSION -ge $GRADLE_DEPRECATION ];then
+          echo "Compiling with Wheel..."
+          make clean
+          make wheel
+          HAIL_WHEEL=`ls /opt/hail-on-AWS-spot-instances/src/hail/hail/build/deploy/dist | grep "whl"`
+          sudo python3 -m pip install --no-deps /opt/hail-on-AWS-spot-instances/src/hail/hail/build/deploy/dist/$HAIL_WHEEL
+
+      else  ./gradlew -Dspark.version=$SPARK_VERSION -Dbreeze.version=0.13.2 -Dpy4j.version=0.10.6 shadowJar archiveZip
+            cp $PWD/build/distributions/hail-python.zip $HOME
+            cp $PWD/build/libs/hail-all-spark.jar $HOME
         fi
-          cp $PWD/build/distributions/hail-python.zip $HOME
-          cp $PWD/build/libs/hail-all-spark.jar $HOME
-        fi
+    fi
 fi

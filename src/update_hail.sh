@@ -47,10 +47,10 @@ sudo rm /etc/alternatives/jre/include/include
 # Build Hail
 ./hail_build.sh -v $HASH
 
-KEY=$(ls ~/.ssh/id_rsa/)
-for WORKERIP in `sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2`
-do
-	scp -i $HOME/.ssh/id_rsa/$KEY $HOME/hail-* $WORKERIP:/home/hadoop/
-done
+# KEY=$(ls ~/.ssh/id_rsa/)
+# for WORKERIP in `sudo grep -i privateip /mnt/var/lib/info/*.txt | sort -u | cut -d "\"" -f 2`
+# do
+# 	scp -i $HOME/.ssh/id_rsa/$KEY $HOME/hail-* $WORKERIP:/home/hadoop/
+# done
 
 sudo stop hadoop-yarn-resourcemanager; sleep 1; sudo start hadoop-yarn-resourcemanager
