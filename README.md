@@ -156,7 +156,7 @@ b) **A valid EC2 key pair**. [Click here]( https://docs.aws.amazon.com/AWSEC2/la
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/emr_waiting.png" width="650">
 
-After the cluster is created, allow for automatic program installation and configuration (~5-8 minutes depending on the number of worker nodes). No additional action is required but to wait for the installation process to complete. (Optional) In addition, the script will also provide the public DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node to monitor cluster progress and status (the program installation log at the master node of your EMR is saved at the path: `/tmp/cloudcreation_log.out`):
+After the cluster is created, allow for automatic program installation and configuration (~5-8 minutes depending on the number of worker nodes). No additional action is required but to wait for the installation process to complete. (Optional) In addition, the script will also provide the public DNS to connect to the master node. [Click here](https://docs.aws.amazon.com/emr/latest/ManagementGuide/emr-connect-master-node-ssh.html) for instructions on how to connect to the master node (NOTE: use username `hadoop`) to monitor cluster progress and status (the program installation log at the master node of your EMR is saved at the path: `/tmp/cloudcreation_log.out`):
 
 <img src="https://github.com/hms-dbmi/hail-on-AWS-spot-instances/blob/master/images/successful_EMR.png" width="550">
 
