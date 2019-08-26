@@ -29,8 +29,7 @@ if grep isMaster /mnt/var/lib/info/instance.json | grep true; then
 	bokeh
 	requests
 	boto3
-	selenium
-	pillow
+	python-magic
 	jupyterlab"
 else 
 	# Worker node: Install all but jupyter lab
@@ -47,8 +46,7 @@ else
 	bokeh
 	requests
 	boto3
-	selenium
-	pillow"
+	python-magic"
 fi
 
 for WHEEL_NAME in $WHEELS
