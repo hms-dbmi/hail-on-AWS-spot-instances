@@ -1,6 +1,6 @@
 # Hail on Amazon EMR: `cloudformation` tool with spot instances
 
-This `cloudformation` tool  (MAC and Linux compatible) creates an EMR 5.23.0 cluster with Spark 2.4.0, using [spot instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html), a cost effective option  (using a bid price) to deploy clusters. Once your cluster is up and running it will have the latest [**Hail 0.2**](https://www.hail.is) version and `Jupyter Lab` installed.
+This `cloudformation` tool  (MAC and Linux compatible) creates an EMR 5.23.0 cluster with Spark 2.4.0, using [spot instances](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html), a cost effective option  (using a bid price) to deploy clusters. Once your cluster is up and running it will have the latest [**Hail 0.2**](https://www.hail.is) version and `Jupyter Lab` installed. See sample file in the `notebook` folder, pre-loaded in `Jupyter Lab` for you to use as starting point.
 
 ## IMPORTANT: Software requirements
 
